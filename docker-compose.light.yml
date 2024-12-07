@@ -1,0 +1,52 @@
+version: '3.8'
+services:
+  app:
+    ##image: charbelba/erp:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-boot-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./application.properties:/app/config/application.properties
+      - ./client_secret_773653723597-i35sq1vmqe5kqveg7r9851gg7psmo83g.apps.googleusercontent.com.json:/app/config/client_secret_773653723597-i35sq1vmqe5kqveg7r9851gg7psmo83g.apps.googleusercontent.com.json
+      - ./keystore.p12:/app/config/keystore.p12
+    environment:
+      SPRING_CONFIG_LOCATION: "file:/app/config/application.properties"
+    depends_on:
+      - mysql
+      - rabbitmq
+    networks:
+      - backend
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 123@BH546Meet5@89#
+      MYSQL_DATABASE: jwt_auth_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - backend
+
+volumes:
+  mysql-data:
+
+networks:
+  backend:
