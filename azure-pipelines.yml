@@ -1,13 +1,10 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: Default   # Replace 'Default' with the name of your self-hosted agent pool
+  demands:
+    - agent.name -equals <azure-agent> # Optional: Target a specific agent if needed
 
 steps:
 - script: echo Hello, world!
