@@ -4,7 +4,7 @@ trigger:
 pool:
   name: agent-pool  
   demands:
-    - agent.name -equals azure-agent # Optional: Target a specific agent if needed
+    - agent.name -equals azure-agent 
 
 steps:
 - script: echo Hello, world!
