@@ -6,11 +6,40 @@ pool:
   demands:
     - agent.name -equals azure-agent 
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
+variables:
+  azureWebAppName: "cloud-app" # Replace with your Azure Web App name
+  azureResourceGroup: "charbel-bou-abdo" # Replace with your Azure Resource Group
+  azureSubscription: "55b710a2-362e-4ac2-af29-303f85a5852c" # Replace with your Azure subscription ID or name
+
+steps:
+# Step 1: Checkout the code
+- task: Checkout@1
+  displayName: 'Checkout Code'
+
+# Step 2: Set up JDK (if required)- task: JavaToolInstaller@1
+  inputs:
+    version: '17' # Replace with your Java version
+    jdkArchitecture: 'x64'
+
+
+# Step 3: Build the Java application
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    ./mvnw clean package # Adjust based on your build tool
+  displayName: 'Build Application'
+
+# Step 4: Publish build artifacts
+- task: PublishPipelineArtifact@1
+  displayName: 'Publish Artifact'
+  inputs:
+    targetPath: '$(System.DefaultWorkingDirectory)/target/*.jar' # Adjust to your artifact path
+    artifact: 'drop'
+
+# Step 5: Deploy to Azure Web App
+- task: AzureWebApp@1
+  displayName: 'Deploy to Azure Web App'
+  inputs:
+    azureSubscription: $(azureSubscription)
+    appName: $(azureWebAppName)
+    resourceGroupName: $(azureResourceGroup)
+    package: '$(Pipeline.Workspace)/drop/*.jar' # Adjust based on your artifact location
