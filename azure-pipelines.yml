@@ -10,7 +10,7 @@ pool:
 variables:
   azureWebAppName: cloud-app
   azureResourceGroup: charbel-bou-abdo
-  azureSubscription: Azure for Students(4a0cfedc-9baf-4271-8f20-10d49fc86a68)
+  azureSubscription: 55b710a2-362e-4ac2-af29-303f85a5852c
 
 steps:
 # Step 1: Checkout the code
