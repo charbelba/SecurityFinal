@@ -7,11 +7,6 @@ pool:
     - agent.name -equals azure-agent 
 
 
-variables:
-  azureWebAppName: cloud-app
-  azureResourceGroup: charbel-bou-abdo
-  azureSubscription: 55b710a2-362e-4ac2-af29-303f85a5852c
-
 steps:
 # Step 1: Checkout the code
 - task: Checkout@1
@@ -39,7 +34,7 @@ steps:
 - task: AzureWebApp@1
   displayName: 'Deploy to Azure Web App'
   inputs:
-    azureSubscription: $(azureSubscription)
-    appName: $(azureWebAppName)
-    resourceGroupName: $(azureResourceGroup)
+    azureSubscription: 55b710a2-362e-4ac2-af29-303f85a5852c
+    appName: cloud-app
+    resourceGroupName: charbel-bou-abdo
     package: '$(Pipeline.Workspace)/drop/*.jar' # Adjust based on your artifact location
