@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  name: Default   # Replace 'Default' with the name of your self-hosted agent pool
+  name: agent-pool   # Replace 'Default' with the name of your self-hosted agent pool
   demands:
     - agent.name -equals <azure-agent> # Optional: Target a specific agent if needed
 
